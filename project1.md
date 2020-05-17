@@ -4,7 +4,7 @@
 ## 1. code 설명   
 따로 파일이나 함수를  추가하지 않고 주어진 함수로 구현하였다. 아래는 sort.cpp 내의 함수 code에 대한 설명이다.  
 
-swap 함수
+swap 함수 : array 배열을 교환하는 주어진 swap 함수를 그대로 사용하였다.
 ```c++
 void swap(int *a, int *b)
 {
@@ -13,9 +13,8 @@ void swap(int *a, int *b)
   (*b) = temp;
 }
 ```
-주어진 swap 함수를 그대로 사용하였다.   
 
-1. bubbleSort.cpp
+1. Bubble Sort 함수 
 ```c++
 void bubbleSort(int *arr, int arrLength)
 {
