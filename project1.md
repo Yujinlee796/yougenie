@@ -129,5 +129,5 @@ void merge(int *arr, int left, int mid, int right, int num)
 }
 ```
 
-## 2. Graph   
-![Alt text](/Desktop/sorting time graph.jpg)
+## 2.Graph
+------------------
