@@ -136,16 +136,20 @@ void merge(int *arr, int left, int mid, int right, int num)
 ```
 
 ## 2.Graph
-windows terminal을 이용하여 array size를 5,000부터 100,000까지 5,000단위로 시행하였다. array의 배열에 따라 수행시간에 차이를 보이기 때문에 일반적인 경향성을 반영하기 위해서 5번 시행한뒤 평균값을 구했다. 다음 그래프는 그 평균값을 나타낸 그래프이다.   
-(원 data는 sorting result.xlsx 에 정리하여 etl에 첨부)   
+windows terminal을 이용하여 array size를 5,000부터 100,000까지 5,000단위로 시행하였다. array의 배열에 따라 수행시간에 차이를 보이기 때문에 일반적인 경향성을 반영하기 위해서 5번 시행한뒤 평균값을 구했다. 다음 그래프는 그 평균값을 나타낸 그래프이다. (raw data는 sorting result.xlsx 에 정리하여 etl에 첨부)   
 
 ![sortingtimegraph](./sortingtimegraph.PNG)   
 
  수행 시간은 bubble > selection > insertion 순서로 나타났다. graph 개형으로 보아 Bubble Sort, Selection Sort, Insertion Sort, Merge Sort의 수행시간은 ~O(n^2), 즉 데이터 개수의 제곱에 비레함을 확인할 수 있었다. merge sort의 경우 array size가 100,000개일 때도 수행시간의 평균이 0.037502로, 준수한 sorting 속도를 보였다. 위 그래프로는 merge sort의 경향성을 파악하기가 어렵기 때문에 따로 그래프를 나타내었다.   
+ 
+ 
  ![mergesorttime](./mergesorttime.PNG)   
  
- 그래프 값의 편차는 있었지만 이는 mergesort 수행시간이 매우 짧기 때문으로 보인다. 또한 위의 O(n^2)의 다른 그래프 개형과 비교했을때, 확연히 완만한 경향을 확인할 수 있어 O(n logn)을 따른다는 것을 확인할 수 있었다.   
+ 그래프 값의 편차는 있었지만 이는 mergesort 수행시간이 매우 짧기 때문으로 보인다. 또한 위의 O(n^2)의 다른 그래프 개형과 비교했을때, 확연히 완만한 경향을 확인할 수 있어 O(nlogn)을 따른다는 것을 확인할 수 있었다.   
+ 
  더 큰 data개수에 대한 merge sort 결과를 그래프로 나타내보았다.   
+ 
  ![bigmergesort](./bigmergesort.PNG)   
- 100000,30000,50000,100000,300000,500000,1000000개의 arraysize로 mergesort를 시행해보았다. 위의 graph보다 더 확실하게 O(n logn)을 따른다는 것을 조금 더 확실하게 확인할 수 있었다. 
+ 
+ 100000,30000,50000,100000,300000,500000,1000000개의 arraysize로 mergesort를 시행해보았다. 위의 graph보다 더 확실하게 O(nlogn)을 따른다는 것을 조금 더 확실하게 확인할 수 있었다. 
  
