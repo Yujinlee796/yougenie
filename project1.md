@@ -125,9 +125,8 @@ void merge(int *arr, int left, int mid, int right, int num)
             i++;
         }
    }
-
-                                                //arr에 tempArr 복사
-   for(int iter{left}; iter <= right; iter++){
+                               
+   for(int iter{left}; iter <= right; iter++){     //arr에 tempArr 복사
     arr[iter] = tempArr[iter];
    }
 
@@ -140,7 +139,8 @@ windows terminal을 이용하여 array size를 5,000부터 100,000까지 5,000�
 
 ![sortingtimegraph](./sortingtimegraph.PNG)   
 
- 수행 시간은 bubble > selection > insertion 순서로 나타났다. graph 개형으로 보아 Bubble Sort, Selection Sort, Insertion Sort, Merge Sort의 수행시간은 ~O(n^2), 즉 데이터 개수의 제곱에 비레함을 확인할 수 있었다. merge sort의 경우 array size가 100,000개일 때도 수행시간의 평균이 0.037502로, 준수한 sorting 속도를 보였다. 위 그래프로는 merge sort의 경향성을 파악하기가 어렵기 때문에 따로 그래프를 나타내었다.   
+ 수행 시간은 bubble > selection > insertion 순서로 나타났다. graph 개형으로 보아 Bubble Sort, Selection Sort, Insertion Sort, Merge Sort의 수행시간은 ~O(n^2), 즉 데이터 개수의 제곱에 비례함을 확인할 수 있었다.    
+ merge sort의 경우 array size가 100,000개일 때도 수행시간의 평균이 0.037502로, 준수한 sorting 속도를 보였다. 위 그래프로는 merge sort의 경향성을 파악하기가 어렵기 때문에 따로 그래프를 나타내었다.   
  
  
  ![mergesorttime](./mergesorttime.PNG)   
