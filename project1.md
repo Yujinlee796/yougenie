@@ -76,8 +76,8 @@ void insertionSort(int *arr, int arrLength)
 }
 ```   
 
-4.Merge Sort    
-*mergeSort.cpp
+4. Merge Sort    
+ * mergeSort.cpp
 ```c++
 void mergeSort(int*arr,int left,int right,int num)
 {
@@ -91,7 +91,7 @@ void mergeSort(int*arr,int left,int right,int num)
 }
 ```   
 
-*merge.cpp
+ * merge.cpp
 ```c++
 void merge(int *arr, int left, int mid, int right, int num)
 {
