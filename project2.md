@@ -62,7 +62,7 @@ data_t Cache::read_data(addr_t address)
  // Cache read hit? : Check if target is in cache
  for(int i=0; i<size; i++)
  {
-  //LRU policy에 맞게 sort
+  // LRU policy에 맞게 sort
   if(cache_cells[i].address == address)
   {
    data_t temp = cache_cells[i].value;
@@ -78,45 +78,43 @@ data_t Cache::read_data(addr_t address)
     
  // Cache read miss : 
  // 1. Check if there is invalid cell
- //LRU policy는 0이 가장 늦게 채워지므로 큰 index부터 check
+ // LRU policy는 0이 가장 늦게 채워지므로 큰 index부터 check
 
  for(int i=size-1; i>=0; i--)
  {
   if(cache_cells[i].valid == false)
   {
-   //i번째 cell이 채워질 것이므로 valid값을 바꿔줌
-   cache_cells[i].valid = true;
-    
-   //sort
+   // sort
    for(int idx=i; idx<size-1; idx++)
    {
     cache_cells[idx] = cache_cells[idx+1];
    }
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = mem->read_data(address);
+   cache_cells[size-1].valid = true;
    return cache_cells[size-1].value;
   }
   else continue;
  }
 
- //if not, evict a cell and replace
+ // if not, evict a cell and replace
  // evict하기 전에 write back에 대한 처리를 해줌
 #ifdef WRITE_BACK
-  if(cache_cells[0].dirty == true)
-  {
-   mem->write_data(cache_cells[0].address,cache_cells[0].value);
-   cache_cells[0].dirty = false;
-  }
+ if(cache_cells[0].dirty == true)
+ {
+  mem->write_data(cache_cells[0].address,cache_cells[0].value);
+  cache_cells[0].dirty = false;
+ }
 #endif
 
-  //앞에서 invalid cell이 존재하는 경우를 처리했으므로 cache 전체가 채워져 있을 것임
-  for(int idx=0; idx<size-1; idx++)
-  {
-   cache_cells[idx] = cache_cells[idx+1];
-  }
-  cache_cells[size-1].address = address;
-  cache_cells[size-1].value = mem->read_data(address);
-  return cache_cells[size-1].value;
+ // 앞에서 invalid cell이 존재하는 경우를 처리했으므로 cache 전체가 채워져 있을 것임
+ for(int idx=0; idx<size-1; idx++)
+ {
+  cache_cells[idx] = cache_cells[idx+1];
+ }
+ cache_cells[size-1].address = address;
+ cache_cells[size-1].value = mem->read_data(address);
+ return cache_cells[size-1].value;
 
 }
 #endif  //end LRU
@@ -229,6 +227,7 @@ void Cache::write_data(addr_t address, data_t value)
     mem->write_data(address,value);        //memory update
     cache_cells[size-1].address = address; //cache update
     cache_cells[size-1].value = value;
+    cache_cells[size-1].valid = true;
     return;
    }
    else continue;
@@ -247,6 +246,7 @@ void Cache::write_data(addr_t address, data_t value)
    }
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = value;
+   cache_cells[size-1].valid = true;
    cache_cells[size-1].dirty = true;
    return;
   }
@@ -280,12 +280,18 @@ void Cache::write_data(addr_t address, data_t value)
    cache_cells[i].valid = true;       //cache_cells[i]도 채워짐
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = value;
+   cache_cells[size-1].valid = true;
    return;
   }
   else continue;
  }
 
  //invalid cell이 없을 때
+ if(cache_cells[0].dirty == true)
+ {
+  mem->write_data(cache_cells[0].address,cache_cells[0].value);
+ }
+
  mem->write_data(address,value);      //memory에 할당
  for(int idx=0; idx<size-1; idx++)
  {
@@ -293,6 +299,7 @@ void Cache::write_data(addr_t address, data_t value)
  }
  cache_cells[size-1].address = address;
  cache_cells[size-1].value = value;
+ cache_cells[size-1].valid = true;
  return;
 #endif  //end write_back
 
