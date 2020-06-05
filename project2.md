@@ -29,7 +29,6 @@ data_t Cache::read_data(addr_t address)
  }
 
  // 2. if not, evict a cell and replace
-
 #ifdef WRITE_BACK
   //check dirty before evict
  if(cache_cells[fifo_head_idx].dirty == true)     
