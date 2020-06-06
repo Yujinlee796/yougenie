@@ -53,7 +53,6 @@ data_t Cache::read_data(addr_t address)
 ```
 
 ```c++
-/********************** LRU Read *****************************/
 #ifdef LRU
 data_t Cache::read_data(addr_t address)
 { 
@@ -72,6 +71,7 @@ data_t Cache::read_data(addr_t address)
    }
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = temp;
+   cache_cells[size-1].dirty = false;
    return temp;
   }
  }
@@ -92,6 +92,7 @@ data_t Cache::read_data(addr_t address)
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = mem->read_data(address);
    cache_cells[size-1].valid = true;
+   cache_cells[size-1].dirty = false;
    return cache_cells[size-1].value;
   }
   else continue;
@@ -114,10 +115,12 @@ data_t Cache::read_data(addr_t address)
  }
  cache_cells[size-1].address = address;
  cache_cells[size-1].value = mem->read_data(address);
+ cache_cells[size-1].dirty = false;
  return cache_cells[size-1].value;
 
 }
 #endif  //end LRU
+
 ```
 
 ```c++
@@ -220,14 +223,13 @@ void Cache::write_data(addr_t address, data_t value)
    if(cache_cells[i].address == address)
    {
     //sort
-    for(int idx=i; idx<size; idx++)
+    for(int idx=i; idx<size-1; idx++)
     {
      cache_cells[idx] = cache_cells[idx+1];
     }
     mem->write_data(address,value);        //memory update
     cache_cells[size-1].address = address; //cache update
     cache_cells[size-1].value = value;
-    cache_cells[size-1].valid = true;
     return;
    }
    else continue;
@@ -246,7 +248,6 @@ void Cache::write_data(addr_t address, data_t value)
    }
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = value;
-   cache_cells[size-1].valid = true;
    cache_cells[size-1].dirty = true;
    return;
   }
@@ -277,10 +278,9 @@ void Cache::write_data(addr_t address, data_t value)
    {
     cache_cells[idx] = cache_cells[idx+1];
    }
-   cache_cells[i].valid = true;       //cache_cells[i]도 채워짐
    cache_cells[size-1].address = address;
    cache_cells[size-1].value = value;
-   cache_cells[size-1].valid = true;
+   cache_cells[size-1].dirty = false;
    return;
   }
   else continue;
@@ -299,10 +299,11 @@ void Cache::write_data(addr_t address, data_t value)
  }
  cache_cells[size-1].address = address;
  cache_cells[size-1].value = value;
- cache_cells[size-1].valid = true;
+ cache_cells[size-1].dirty = false;
  return;
 #endif  //end write_back
 
 }
 #endif  //end LRU
+
 ```
